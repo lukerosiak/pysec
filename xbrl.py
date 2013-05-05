@@ -65,36 +65,38 @@ class XBRL:
 
     def GetBaseInformation(self):        
         #This gets the taxonomy version and figures out the contexts of the current period (instant and dutation)
-
-        #Taxonomy version (Figures out which version of taxonomy is being used)    
-        TaxonomyVersion = "ERROR"
-        USGAAP_TaxonomyVersion = "ERROR"
-        DEI_TaxonomyVersion = "ERROR"
                 
         #This differentiates between the 2009, 2011, and 2012 US GAAP taxonomies...
             
         #US GAAP Taxonomy
-        if "http://fasb.org/us-gaap/2012-01-31" in self.EntireInstanceDocument:
+        if "http://fasb.org/us-gaap/2012-01-31" in self.EntireInstanceDocument or "http://xbrl.us/us-gaap/2012-01-31"  in self.EntireInstanceDocument:
             #This IS the 2012 US GAAP taxonomy
             self.fields['USGAAP_TaxonomyVersion'] = "http://fasb.org/us-gaap/2012-01-31"
             self.fields['Invest_TaxonomyVersion'] = "http://xbrl.sec.gov/invest/2012-01-31"
-        if "http://fasb.org/us-gaap/2011-01-31" in self.EntireInstanceDocument:
+        elif "http://fasb.org/us-gaap/2011-01-31" in self.EntireInstanceDocument or "http://xbrl.us/us-gaap/2011-01-31"  in self.EntireInstanceDocument:
             #This IS the 2011 US GAAP taxonomy
             self.fields['USGAAP_TaxonomyVersion'] = "http://fasb.org/us-gaap/2011-01-31"
             self.fields['Invest_TaxonomyVersion'] = "http://xbrl.sec.gov/invest/2011-01-31"
-        if "http://fasb.org/us-gaap/2009-01-31" in self.EntireInstanceDocument:
+        elif "http://fasb.org/us-gaap/2009-01-31" in self.EntireInstanceDocument or "http://xbrl.us/us-gaap/2010-01-31"  in self.EntireInstanceDocument:
             #This IS the 2009 US GAAP taxonomy
             self.fields['USGAAP_TaxonomyVersion'] = "http://xbrl.us/us-gaap/2009-01-31"
             self.fields['Invest_TaxonomyVersion'] = "http://xbrl.us/invest/2019-01-31"
+        else: #"http://fasb.org/us-gaap/2009-01-31" in self.EntireInstanceDocument or "http://xbrl.us/us-gaap/2009-01-31"  in self.EntireInstanceDocument:
+            #This IS the 2009 US GAAP taxonomy
+            self.fields['USGAAP_TaxonomyVersion'] = "http://xbrl.us/us-gaap/2009-01-31"
+            self.fields['Invest_TaxonomyVersion'] = "http://xbrl.us/invest/2019-01-31"
+            
+           
+            
         
         #DEI Taxonomy
         if "http://xbrl.sec.gov/dei/2012-01-31" in self.EntireInstanceDocument:
             #This IS the 2012 DEI taxonomy
             self.fields['DEI_TaxonomyVersion'] = "http://xbrl.sec.gov/dei/2012-01-31"
-        if "http://xbrl.sec.gov/dei/2011-01-31" in self.EntireInstanceDocument:
+        elif "http://xbrl.sec.gov/dei/2011-01-31" in self.EntireInstanceDocument:
             #This IS the 2011 DEI taxonomy
             self.fields['DEI_TaxonomyVersion'] = "http://xbrl.sec.gov/dei/2011-01-31"
-        if "http://xbrl.sec.gov/dei/2009-01-31" in self.EntireInstanceDocument:
+        else: # "http://xbrl.sec.gov/dei/2009-01-31" in self.EntireInstanceDocument:
             #This IS the 2009 DEI taxonomy
             self.fields['DEI_TaxonomyVersion'] = "http://xbrl.us/dei/2009-01-31"
         

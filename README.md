@@ -11,7 +11,16 @@ print x.fields #a dict of the most important values
 
 To get any XBRL term:
 
-x.GetFactValue(XMBL TAG, "Duration" or "Instant" (depending on if it's a year-long or snapshot value)):
+x.GetFactValue(XMBL TAG, "Duration" or "Instant" (depending on if it's a year-long or snapshot value))
+
+To set up the index of all SEC filings:
+
+python manage.py syncdb
+python manage.py sec_import_index
+
+This creates the Index() model. To download any filing, call .download() on that model instance. To get its XBRL attributes if it's an XBRL filing, call .xbrl() on it and look at the .fields attribute of the returned model.
+
+
 
 By Luke Rosiak
 Released under the GNU
