@@ -5,6 +5,7 @@ class FundamentantalAccountingConcepts:
 
         self.xbrl = xbrl
 
+
         print " "
         print "FUNDAMENTAL ACCOUNTING CONCEPTS CHECK REPORT:"
         print "XBRL instance: " + self.xbrl.XBRLInstanceLocation
@@ -191,21 +192,7 @@ class FundamentantalAccountingConcepts:
         if self.xbrl.fields['Liabilities']==0 and self.xbrl.fields['CurrentLiabilities']!=0 and self.xbrl.fields['NoncurrentLiabilities']==0:
             self.xbrl.fields['Liabilities'] = self.xbrl.fields['CurrentLiabilities']
         
-        
-        print "Assets: ", self.xbrl.fields['Assets']
-        print "Current Assets: ", self.xbrl.fields['CurrentAssets']
-        print "Noncurrent Assets: ", self.xbrl.fields['NoncurrentAssets']
-        print "LiabilitiesAndEquity: ", self.xbrl.fields['LiabilitiesAndEquity']
-        print "Liabilities: ", self.xbrl.fields['Liabilities']
-        print "Current Liabilities: ", self.xbrl.fields['CurrentLiabilities']
-        print "Noncurrent Liabilities: ", self.xbrl.fields['NoncurrentLiabilities']
-        print "Commitments and contingencies: ", self.xbrl.fields['CommitmentsAndContingencies']
-        print "Temporary equity: ", self.xbrl.fields['TemporaryEquity']
-        print "Equity: ", self.xbrl.fields['Equity']
-        print "Equity attributable to parent: ", self.xbrl.fields['EquityAttributableToParent']
-        print "Equity attributable to noncontrolling interest: ", self.xbrl.fields['EquityAttributableToNoncontrollingInterest']
-        print " "
-            
+                    
         lngBSCheck1 = self.xbrl.fields['Equity'] - (self.xbrl.fields['EquityAttributableToParent'] + self.xbrl.fields['EquityAttributableToNoncontrollingInterest'])
         lngBSCheck2 = self.xbrl.fields['Assets'] - self.xbrl.fields['LiabilitiesAndEquity']
         
@@ -222,12 +209,16 @@ class FundamentantalAccountingConcepts:
         
         lngBSCheck5 = self.xbrl.fields['LiabilitiesAndEquity'] - (self.xbrl.fields['Liabilities'] + self.xbrl.fields['CommitmentsAndContingencies'] + self.xbrl.fields['TemporaryEquity'] + self.xbrl.fields['Equity'])
         
-        print "BS1: Equity(" , self.xbrl.fields['Equity'] , ") = EquityAttributableToParent(" , self.xbrl.fields['EquityAttributableToParent'] , ") , EquityAttributableToNoncontrollingInterest(" , self.xbrl.fields['EquityAttributableToNoncontrollingInterest'] , "): " , lngBSCheck1
-        print "BS2: Assets(" , self.xbrl.fields['Assets'] , ") = LiabilitiesAndEquity(" , self.xbrl.fields['LiabilitiesAndEquity'] , "): " , lngBSCheck2
-        print "BS3: Assets(" , self.xbrl.fields['Assets'] , ") = CurrentAssets(" , self.xbrl.fields['CurrentAssets'] , ") , NoncurrentAssets(" , self.xbrl.fields['NoncurrentAssets'] , "): " , lngBSCheck3
-        print "BS4: Liabilities(" , self.xbrl.fields['Liabilities'] , ")= CurrentLiabilities(" , self.xbrl.fields['CurrentLiabilities'] , ") , NoncurrentLiabilities(" , self.xbrl.fields['NoncurrentLiabilities'] , "): " , lngBSCheck4
-        print "BS5: Liabilities and Equity(" , self.xbrl.fields['LiabilitiesAndEquity'] , ")= Liabilities(" , self.xbrl.fields['Liabilities'] , ") , CommitmentsAndContingencies(" , self.xbrl.fields['CommitmentsAndContingencies'] , "), TemporaryEquity(" , self.xbrl.fields['TemporaryEquity'] , "), Equity(" , self.xbrl.fields['Equity'] , "): " , lngBSCheck5
-        print " "
+        if lngBSCheck1:
+            print "BS1: Equity(" , self.xbrl.fields['Equity'] , ") = EquityAttributableToParent(" , self.xbrl.fields['EquityAttributableToParent'] , ") , EquityAttributableToNoncontrollingInterest(" , self.xbrl.fields['EquityAttributableToNoncontrollingInterest'] , "): " , lngBSCheck1
+        if lngBSCheck2:
+            print "BS2: Assets(" , self.xbrl.fields['Assets'] , ") = LiabilitiesAndEquity(" , self.xbrl.fields['LiabilitiesAndEquity'] , "): " , lngBSCheck2
+        if lngBSCheck3:
+            print "BS3: Assets(" , self.xbrl.fields['Assets'] , ") = CurrentAssets(" , self.xbrl.fields['CurrentAssets'] , ") , NoncurrentAssets(" , self.xbrl.fields['NoncurrentAssets'] , "): " , lngBSCheck3
+        if lngBSCheck4:
+            print "BS4: Liabilities(" , self.xbrl.fields['Liabilities'] , ")= CurrentLiabilities(" , self.xbrl.fields['CurrentLiabilities'] , ") , NoncurrentLiabilities(" , self.xbrl.fields['NoncurrentLiabilities'] , "): " , lngBSCheck4
+        if lngBSCheck5:
+            print "BS5: Liabilities and Equity(" , self.xbrl.fields['LiabilitiesAndEquity'] , ")= Liabilities(" , self.xbrl.fields['Liabilities'] , ") , CommitmentsAndContingencies(" , self.xbrl.fields['CommitmentsAndContingencies'] , "), TemporaryEquity(" , self.xbrl.fields['TemporaryEquity'] , "), Equity(" , self.xbrl.fields['Equity'] , "): " , lngBSCheck5
              
         
 
@@ -541,39 +532,7 @@ class FundamentantalAccountingConcepts:
         if self.xbrl.fields['OperatingIncomeLoss']==0 and self.xbrl.fields['IncomeBeforeEquityMethodInvestments']!=0:
             self.xbrl.fields['OperatingIncomeLoss'] = self.xbrl.fields['IncomeBeforeEquityMethodInvestments'] + self.xbrl.fields['NonoperatingIncomeLoss'] - self.xbrl.fields['InterestAndDebtExpense']
                 
-     
-     
-        print "Revenues: " , self.xbrl.fields['Revenues']
-        print "Cost of Revenue: " , self.xbrl.fields['CostOfRevenue']
-        print "Gross Profit: " , self.xbrl.fields['GrossProfit']
-        print "Operating Expenses: " , self.xbrl.fields['OperatingExpenses']
-        print "Costs and Expenses: " , self.xbrl.fields['CostsAndExpenses']
-        print "Other Operating Income: " , self.xbrl.fields['OtherOperatingIncome']
-        print "Operating Income (Loss): " , self.xbrl.fields['OperatingIncomeLoss']
-        print "Nonoperating Income (Loss): " , self.xbrl.fields['NonoperatingIncomeLoss']
-        print "Interest and Debt Expense: " , self.xbrl.fields['InterestAndDebtExpense']
-        print "Nonoperating Income (Loss) Plus Interest and Debt Expense: " , self.xbrl.fields['NonoperatingIncomeLossPlusInterestAndDebtExpense']
-                
-        print "Income (Loss) Before Equity Method Investments: " , self.xbrl.fields['IncomeBeforeEquityMethodInvestments']
-        print "Income (Loss) from Equity Method Investments: " , self.xbrl.fields['IncomeFromEquityMethodInvestments']
-        print "Income (Loss) from Continuing Operations Before Tax: " , self.xbrl.fields['IncomeFromContinuingOperationsBeforeTax']
-        print "Income Tax Expense (Benefit): " , self.xbrl.fields['IncomeTaxExpenseBenefit']
-        print "Income (Loss) from Continuing Operations After Tax: " , self.xbrl.fields['IncomeFromContinuingOperationsAfterTax']
-        print "Income (Loss) from Discontinued Operations: " , self.xbrl.fields['IncomeFromDiscontinuedOperations']
-        print "Extraordinary Items, Gain (Loss): " , self.xbrl.fields['ExtraordaryItemsGainLoss']
-        
-        print "Net Income (Loss): " , self.xbrl.fields['NetIncomeLoss']
-        print "Net Income (Loss) Attributable to Parent: " , self.xbrl.fields['NetIncomeAttributableToParent']
-        print "Net Income (Loss) Attributable to Noncontrolling Interest: " , self.xbrl.fields['NetIncomeAttributableToNoncontrollingInterest']
-        
-        print "Preferred Stock Dividends and Other Adjustments: " , self.xbrl.fields['PreferredStockDividendsAndOtherAdjustments']
-        print "Net Income (Loss) Available to Common Stockholders, Basic: " , self.xbrl.fields['NetIncomeAvailableToCommonStockholdersBasic']
-        
-        print "Other Comprehensive Income: " , self.xbrl.fields['OtherComprehensiveIncome']
-        print "Comprehensive Income: " , self.xbrl.fields['ComprehensiveIncome']
-        print "Comprehensive Income Attributable to Parent: " , self.xbrl.fields['ComprehensiveIncomeAttributableToParent']
-        print "Comprehensive Income Attributable to Noncontrolling Interest: " , self.xbrl.fields['ComprehensiveIncomeAttributableToNoncontrollingInterest']
-        
+             
         lngIS1 = (self.xbrl.fields['Revenues'] - self.xbrl.fields['CostOfRevenue']) - self.xbrl.fields['GrossProfit']
         lngIS2 = (self.xbrl.fields['GrossProfit'] - self.xbrl.fields['OperatingExpenses'] + self.xbrl.fields['OtherOperatingIncome']) - self.xbrl.fields['OperatingIncomeLoss']
         lngIS3 = (self.xbrl.fields['OperatingIncomeLoss'] + self.xbrl.fields['NonoperatingIncomeLoss'] + self.xbrl.fields['InterestAndDebtExpense']) - self.xbrl.fields['IncomeBeforeEquityMethodInvestments']
@@ -586,18 +545,29 @@ class FundamentantalAccountingConcepts:
         lngIS10 = (self.xbrl.fields['NetIncomeLoss'] + self.xbrl.fields['OtherComprehensiveIncome']) - self.xbrl.fields['ComprehensiveIncome']
         lngIS11 = self.xbrl.fields['OperatingIncomeLoss'] - (self.xbrl.fields['Revenues'] - self.xbrl.fields['CostsAndExpenses'] + self.xbrl.fields['OtherOperatingIncome'])
         
-        print "IS1: GrossProfit(" , self.xbrl.fields['GrossProfit'] , ") = Revenues(" , self.xbrl.fields['Revenues'] , ") - CostOfRevenue(" , self.xbrl.fields['CostOfRevenue'] , "): " , lngIS1
-        print "IS2: OperatingIncomeLoss(" , self.xbrl.fields['OperatingIncomeLoss'] , ") = GrossProfit(" , self.xbrl.fields['GrossProfit'] , ") - OperatingExpenses(" , self.xbrl.fields['OperatingExpenses'] , ") , OtherOperatingIncome(" , self.xbrl.fields['OtherOperatingIncome'] , "): " , lngIS2
-        print "IS3: IncomeBeforeEquityMethodInvestments(" , self.xbrl.fields['IncomeBeforeEquityMethodInvestments'] , ") = OperatingIncomeLoss(" , self.xbrl.fields['OperatingIncomeLoss'] , ") , NonoperatingIncomeLoss(" , self.xbrl.fields['NonoperatingIncomeLoss'] , "), InterestAndDebtExpense(" , self.xbrl.fields['InterestAndDebtExpense'] , "): " , lngIS3
-        print "IS4: IncomeFromContinuingOperationsBeforeTax(" , self.xbrl.fields['IncomeFromContinuingOperationsBeforeTax'] , ") = IncomeBeforeEquityMethodInvestments(" , self.xbrl.fields['IncomeBeforeEquityMethodInvestments'] , ") , IncomeFromEquityMethodInvestments(" , self.xbrl.fields['IncomeFromEquityMethodInvestments'] , "): " , lngIS4
+        if lngIS1:
+            print "IS1: GrossProfit(" , self.xbrl.fields['GrossProfit'] , ") = Revenues(" , self.xbrl.fields['Revenues'] , ") - CostOfRevenue(" , self.xbrl.fields['CostOfRevenue'] , "): " , lngIS1
+        if lngIS2:
+            print "IS2: OperatingIncomeLoss(" , self.xbrl.fields['OperatingIncomeLoss'] , ") = GrossProfit(" , self.xbrl.fields['GrossProfit'] , ") - OperatingExpenses(" , self.xbrl.fields['OperatingExpenses'] , ") , OtherOperatingIncome(" , self.xbrl.fields['OtherOperatingIncome'] , "): " , lngIS2
+        if lngIS3:
+            print "IS3: IncomeBeforeEquityMethodInvestments(" , self.xbrl.fields['IncomeBeforeEquityMethodInvestments'] , ") = OperatingIncomeLoss(" , self.xbrl.fields['OperatingIncomeLoss'] , ") , NonoperatingIncomeLoss(" , self.xbrl.fields['NonoperatingIncomeLoss'] , "), InterestAndDebtExpense(" , self.xbrl.fields['InterestAndDebtExpense'] , "): " , lngIS3
+        if lngIS4:
+            print "IS4: IncomeFromContinuingOperationsBeforeTax(" , self.xbrl.fields['IncomeFromContinuingOperationsBeforeTax'] , ") = IncomeBeforeEquityMethodInvestments(" , self.xbrl.fields['IncomeBeforeEquityMethodInvestments'] , ") , IncomeFromEquityMethodInvestments(" , self.xbrl.fields['IncomeFromEquityMethodInvestments'] , "): " , lngIS4
         
-        print "IS5: IncomeFromContinuingOperationsAfterTax(" , self.xbrl.fields['IncomeFromContinuingOperationsAfterTax'] , ") = IncomeFromContinuingOperationsBeforeTax(" , self.xbrl.fields['IncomeFromContinuingOperationsBeforeTax'] , ") - IncomeTaxExpenseBenefit(" , self.xbrl.fields['IncomeTaxExpenseBenefit'] , "): " , lngIS5
-        print "IS6: NetIncomeLoss(" , self.xbrl.fields['NetIncomeLoss'] , ") = IncomeFromContinuingOperationsAfterTax(" , self.xbrl.fields['IncomeFromContinuingOperationsAfterTax'] , ") , IncomeFromDiscontinuedOperations(" , self.xbrl.fields['IncomeFromDiscontinuedOperations'] , ") , ExtraordaryItemsGainLoss(" , self.xbrl.fields['ExtraordaryItemsGainLoss'] , "): " , lngIS6
-        print "IS7: NetIncomeLoss(" , self.xbrl.fields['NetIncomeLoss'] , ") = NetIncomeAttributableToParent(" , self.xbrl.fields['NetIncomeAttributableToParent'] , ") , NetIncomeAttributableToNoncontrollingInterest(" , self.xbrl.fields['NetIncomeAttributableToNoncontrollingInterest'] , "): " , lngIS7
-        print "IS8: NetIncomeAvailableToCommonStockholdersBasic(" , self.xbrl.fields['NetIncomeAvailableToCommonStockholdersBasic'] , ") = NetIncomeAttributableToParent(" , self.xbrl.fields['NetIncomeAttributableToParent'] , ") - PreferredStockDividendsAndOtherAdjustments(" , self.xbrl.fields['PreferredStockDividendsAndOtherAdjustments'] , "): " , lngIS8
-        print "IS9: ComprehensiveIncome(" , self.xbrl.fields['ComprehensiveIncome'] , ") = ComprehensiveIncomeAttributableToParent(" , self.xbrl.fields['ComprehensiveIncomeAttributableToParent'] , ") , ComprehensiveIncomeAttributableToNoncontrollingInterest(" , self.xbrl.fields['ComprehensiveIncomeAttributableToNoncontrollingInterest'] , "): " , lngIS9
-        print "IS10: ComprehensiveIncome(" , self.xbrl.fields['ComprehensiveIncome'] , ") = NetIncomeLoss(" , self.xbrl.fields['NetIncomeLoss'] , ") , OtherComprehensiveIncome(" , self.xbrl.fields['OtherComprehensiveIncome'] , "): " , lngIS10
-        print "IS11: OperatingIncomeLoss(" , self.xbrl.fields['OperatingIncomeLoss'] , ") = Revenues(" , self.xbrl.fields['Revenues'] , ") - CostsAndExpenses(" , self.xbrl.fields['CostsAndExpenses'] , ") , OtherOperatingIncome(" , self.xbrl.fields['OtherOperatingIncome'] , "): " , lngIS11
+        if lngIS5:
+            print "IS5: IncomeFromContinuingOperationsAfterTax(" , self.xbrl.fields['IncomeFromContinuingOperationsAfterTax'] , ") = IncomeFromContinuingOperationsBeforeTax(" , self.xbrl.fields['IncomeFromContinuingOperationsBeforeTax'] , ") - IncomeTaxExpenseBenefit(" , self.xbrl.fields['IncomeTaxExpenseBenefit'] , "): " , lngIS5
+        if  lngIS6:
+            print "IS6: NetIncomeLoss(" , self.xbrl.fields['NetIncomeLoss'] , ") = IncomeFromContinuingOperationsAfterTax(" , self.xbrl.fields['IncomeFromContinuingOperationsAfterTax'] , ") , IncomeFromDiscontinuedOperations(" , self.xbrl.fields['IncomeFromDiscontinuedOperations'] , ") , ExtraordaryItemsGainLoss(" , self.xbrl.fields['ExtraordaryItemsGainLoss'] , "): " , lngIS6
+        if lngIS7:
+            print "IS7: NetIncomeLoss(" , self.xbrl.fields['NetIncomeLoss'] , ") = NetIncomeAttributableToParent(" , self.xbrl.fields['NetIncomeAttributableToParent'] , ") , NetIncomeAttributableToNoncontrollingInterest(" , self.xbrl.fields['NetIncomeAttributableToNoncontrollingInterest'] , "): " , lngIS7
+        if lngIS8:
+            print "IS8: NetIncomeAvailableToCommonStockholdersBasic(" , self.xbrl.fields['NetIncomeAvailableToCommonStockholdersBasic'] , ") = NetIncomeAttributableToParent(" , self.xbrl.fields['NetIncomeAttributableToParent'] , ") - PreferredStockDividendsAndOtherAdjustments(" , self.xbrl.fields['PreferredStockDividendsAndOtherAdjustments'] , "): " , lngIS8
+        if lngIS9:
+            print "IS9: ComprehensiveIncome(" , self.xbrl.fields['ComprehensiveIncome'] , ") = ComprehensiveIncomeAttributableToParent(" , self.xbrl.fields['ComprehensiveIncomeAttributableToParent'] , ") , ComprehensiveIncomeAttributableToNoncontrollingInterest(" , self.xbrl.fields['ComprehensiveIncomeAttributableToNoncontrollingInterest'] , "): " , lngIS9
+        if lngIS10:
+            print "IS10: ComprehensiveIncome(" , self.xbrl.fields['ComprehensiveIncome'] , ") = NetIncomeLoss(" , self.xbrl.fields['NetIncomeLoss'] , ") , OtherComprehensiveIncome(" , self.xbrl.fields['OtherComprehensiveIncome'] , "): " , lngIS10
+        if lngIS11:
+            print "IS11: OperatingIncomeLoss(" , self.xbrl.fields['OperatingIncomeLoss'] , ") = Revenues(" , self.xbrl.fields['Revenues'] , ") - CostsAndExpenses(" , self.xbrl.fields['CostsAndExpenses'] , ") , OtherOperatingIncome(" , self.xbrl.fields['OtherOperatingIncome'] , "): " , lngIS11
 
 
 
@@ -699,20 +669,6 @@ class FundamentantalAccountingConcepts:
         if self.xbrl.fields['NetCashFlow']==0 and (self.xbrl.fields['NetCashFlowsOperating']!=0 or self.xbrl.fields['NetCashFlowsInvesting']!=0 or self.xbrl.fields['NetCashFlowsFinancing']!=0):
             self.xbrl.fields['NetCashFlow'] = self.xbrl.fields['NetCashFlowsOperating'] + self.xbrl.fields['NetCashFlowsInvesting'] + self.xbrl.fields['NetCashFlowsFinancing']
 
-
-        print "Net Cash Flow: " , self.xbrl.fields['NetCashFlow']
-        print "Net Cash Flow, Operating: " , self.xbrl.fields['NetCashFlowsOperating']
-        print "Net Cash Flow, Investing: " , self.xbrl.fields['NetCashFlowsInvesting']
-        print "Net Cash Flow, Financing: " , self.xbrl.fields['NetCashFlowsFinancing']
-        print "Net Cash Flow, Operating, Continuing: " , self.xbrl.fields['NetCashFlowsOperatingContinuing']
-        print "Net Cash Flow, Investing, Continuing: " , self.xbrl.fields['NetCashFlowsInvestingContinuing']
-        print "Net Cash Flow, Financing, Continuing: " , self.xbrl.fields['NetCashFlowsFinancingContinuing']
-        print "Net Cash Flow, Operating, Discontinued: " , self.xbrl.fields['NetCashFlowsOperatingDiscontinued']
-        print "Net Cash Flow, Investing, Discontinued: " , self.xbrl.fields['NetCashFlowsInvestingDiscontinued']
-        print "Net Cash Flow, Financing, Discontinued: " , self.xbrl.fields['NetCashFlowsFinancingDiscontinued']
-        print "Net Cash Flow, Continuing: " , self.xbrl.fields['NetCashFlowsContinuing']
-        print "Net Cash Flow, Discontinued: " , self.xbrl.fields['NetCashFlowsDiscontinued']
-        print "Exchange Gains (Losses): " , self.xbrl.fields['ExchangeGainsLosses']
         
         lngCF1 = self.xbrl.fields['NetCashFlow'] - (self.xbrl.fields['NetCashFlowsOperating'] + self.xbrl.fields['NetCashFlowsInvesting'] + self.xbrl.fields['NetCashFlowsFinancing'] + self.xbrl.fields['ExchangeGainsLosses'])
         lngCF2 = self.xbrl.fields['NetCashFlowsContinuing'] - (self.xbrl.fields['NetCashFlowsOperatingContinuing'] + self.xbrl.fields['NetCashFlowsInvestingContinuing'] + self.xbrl.fields['NetCashFlowsFinancingContinuing'])
@@ -722,13 +678,18 @@ class FundamentantalAccountingConcepts:
         lngCF6 = self.xbrl.fields['NetCashFlowsFinancing'] - (self.xbrl.fields['NetCashFlowsFinancingContinuing'] + self.xbrl.fields['NetCashFlowsFinancingDiscontinued'])
         
         
-        print " "
-        print "CF1: NetCashFlow(" , self.xbrl.fields['NetCashFlow'] , ") = (NetCashFlowsOperating(" , self.xbrl.fields['NetCashFlowsOperating'] , ") , (NetCashFlowsInvesting(" , self.xbrl.fields['NetCashFlowsInvesting'] , ") , (NetCashFlowsFinancing(" , self.xbrl.fields['NetCashFlowsFinancing'] , ") , ExchangeGainsLosses(" , self.xbrl.fields['ExchangeGainsLosses'] , "): " , lngCF1
-        print "CF2: NetCashFlowsContinuing(" , self.xbrl.fields['NetCashFlowsContinuing'] , ") = NetCashFlowsOperatingContinuing(" , self.xbrl.fields['NetCashFlowsOperatingContinuing'] , ") , NetCashFlowsInvestingContinuing(" , self.xbrl.fields['NetCashFlowsInvestingContinuing'] , ") , NetCashFlowsFinancingContinuing(" , self.xbrl.fields['NetCashFlowsFinancingContinuing'] , "): " , lngCF2
-        print "CF3: NetCashFlowsDiscontinued(" , self.xbrl.fields['NetCashFlowsDiscontinued'] , ") = NetCashFlowsOperatingDiscontinued(" , self.xbrl.fields['NetCashFlowsOperatingDiscontinued'] , ") , NetCashFlowsInvestingDiscontinued(" , self.xbrl.fields['NetCashFlowsInvestingDiscontinued'] , ") , NetCashFlowsFinancingDiscontinued(" , self.xbrl.fields['NetCashFlowsFinancingDiscontinued'] , "): " , lngCF3
-        print "CF4: NetCashFlowsOperating(" , self.xbrl.fields['NetCashFlowsOperating'] , ") = NetCashFlowsOperatingContinuing(" , self.xbrl.fields['NetCashFlowsOperatingContinuing'] , ") , NetCashFlowsOperatingDiscontinued(" , self.xbrl.fields['NetCashFlowsOperatingDiscontinued'] , "): " , lngCF4
-        print "CF5: NetCashFlowsInvesting(" , self.xbrl.fields['NetCashFlowsInvesting'] , ") = NetCashFlowsInvestingContinuing(" , self.xbrl.fields['NetCashFlowsInvestingContinuing'] , ") , NetCashFlowsInvestingDiscontinued(" , self.xbrl.fields['NetCashFlowsInvestingDiscontinued'] , "): " , lngCF5
-        print "CF6: NetCashFlowsFinancing(" , self.xbrl.fields['NetCashFlowsFinancing'] , ") = NetCashFlowsFinancingContinuing(" , self.xbrl.fields['NetCashFlowsFinancingContinuing'] , ") , NetCashFlowsFinancingDiscontinued(" , self.xbrl.fields['NetCashFlowsFinancingDiscontinued'] , "): " , lngCF6
+        if lngCF1:
+            print "CF1: NetCashFlow(" , self.xbrl.fields['NetCashFlow'] , ") = (NetCashFlowsOperating(" , self.xbrl.fields['NetCashFlowsOperating'] , ") , (NetCashFlowsInvesting(" , self.xbrl.fields['NetCashFlowsInvesting'] , ") , (NetCashFlowsFinancing(" , self.xbrl.fields['NetCashFlowsFinancing'] , ") , ExchangeGainsLosses(" , self.xbrl.fields['ExchangeGainsLosses'] , "): " , lngCF1
+        if lngCF2:
+            print "CF2: NetCashFlowsContinuing(" , self.xbrl.fields['NetCashFlowsContinuing'] , ") = NetCashFlowsOperatingContinuing(" , self.xbrl.fields['NetCashFlowsOperatingContinuing'] , ") , NetCashFlowsInvestingContinuing(" , self.xbrl.fields['NetCashFlowsInvestingContinuing'] , ") , NetCashFlowsFinancingContinuing(" , self.xbrl.fields['NetCashFlowsFinancingContinuing'] , "): " , lngCF2
+        if lngCF3:
+            print "CF3: NetCashFlowsDiscontinued(" , self.xbrl.fields['NetCashFlowsDiscontinued'] , ") = NetCashFlowsOperatingDiscontinued(" , self.xbrl.fields['NetCashFlowsOperatingDiscontinued'] , ") , NetCashFlowsInvestingDiscontinued(" , self.xbrl.fields['NetCashFlowsInvestingDiscontinued'] , ") , NetCashFlowsFinancingDiscontinued(" , self.xbrl.fields['NetCashFlowsFinancingDiscontinued'] , "): " , lngCF3
+        if lngCF4:
+            print "CF4: NetCashFlowsOperating(" , self.xbrl.fields['NetCashFlowsOperating'] , ") = NetCashFlowsOperatingContinuing(" , self.xbrl.fields['NetCashFlowsOperatingContinuing'] , ") , NetCashFlowsOperatingDiscontinued(" , self.xbrl.fields['NetCashFlowsOperatingDiscontinued'] , "): " , lngCF4
+        if lngCF5:
+            print "CF5: NetCashFlowsInvesting(" , self.xbrl.fields['NetCashFlowsInvesting'] , ") = NetCashFlowsInvestingContinuing(" , self.xbrl.fields['NetCashFlowsInvestingContinuing'] , ") , NetCashFlowsInvestingDiscontinued(" , self.xbrl.fields['NetCashFlowsInvestingDiscontinued'] , "): " , lngCF5
+        if lngCF6:
+            print "CF6: NetCashFlowsFinancing(" , self.xbrl.fields['NetCashFlowsFinancing'] , ") = NetCashFlowsFinancingContinuing(" , self.xbrl.fields['NetCashFlowsFinancingContinuing'] , ") , NetCashFlowsFinancingDiscontinued(" , self.xbrl.fields['NetCashFlowsFinancingDiscontinued'] , "): " , lngCF6
 
 
         #Key ratios
