@@ -68,7 +68,7 @@ class Index(models.Model):
             pass
         os.chdir(self.localpath())
 
-        if not os.path.exists('./%s' % self.html_link().split('/')[-1]):
+        if not os.path.exists(self.html_link().split('/')[-1]):
             os.system('wget %s' % self.html_link())     
         if self.xbrl_link():
             if not os.path.exists(self.xbrl_link().split('/')[-1]):
@@ -77,7 +77,10 @@ class Index(models.Model):
 
 
     def xbrl(self):
-        os.chdir(self.localpath())
+        try:
+            os.chdir(self.localpath())
+        except:
+            self.download()
         files = os.listdir('.')
         xml = sorted([elem for elem in files if elem.endswith('.xml')],key=len)
         if not len(xml):

@@ -231,7 +231,7 @@ class FundamentantalAccountingConcepts:
             if self.xbrl.fields['Revenues'] == None:
                 self.xbrl.fields['Revenues'] = self.xbrl.GetFactValue("us-gaap:SalesRevenueServicesNet", "Duration")
                 if self.xbrl.fields['Revenues'] == None:
-                    self.xbrl.fields['Revenues'] = self.xbrl.GetFactValue("us-gaap:SalesRevenueGoodsNet", "Duration")
+                    self.xbrl.fields['Revenues'] = self.xbrl.GetFactValue("us-gaap:RevenuesNetOfInterestExpense", "Duration")
                     if self.xbrl.fields['Revenues'] == None:
                         self.xbrl.fields['Revenues'] = self.xbrl.GetFactValue("us-gaap:RegulatedAndUnregulatedOperatingRevenue", "Duration")
                         if self.xbrl.fields['Revenues'] == None:
@@ -247,7 +247,9 @@ class FundamentantalAccountingConcepts:
                                             if self.xbrl.fields['Revenues'] == None:
                                                 self.xbrl.fields['Revenues'] = self.xbrl.GetFactValue("us-gaap:FinancialServicesRevenue", "Duration")
                                                 if self.xbrl.fields['Revenues'] == None:
-                                                    self.xbrl.fields['Revenues'] = 0
+                                                    self.xbrl.fields['Revenues'] = self.xbrl.GetFactValue("us-gaap:RegulatedAndUnregulatedOperatingRevenue", "Duration")                                                
+                                                    if self.xbrl.fields['Revenues'] == None:
+                                                        self.xbrl.fields['Revenues'] = 0
 
 
         #CostOfRevenue
@@ -350,7 +352,9 @@ class FundamentantalAccountingConcepts:
         if self.xbrl.fields['IncomeFromDiscontinuedOperations']== None:
             self.xbrl.fields['IncomeFromDiscontinuedOperations'] = self.xbrl.GetFactValue("us-gaap:DiscontinuedOperationGainLossOnDisposalOfDiscontinuedOperationNetOfTax", "Duration")
             if self.xbrl.fields['IncomeFromDiscontinuedOperations']== None:
-                self.xbrl.fields['IncomeFromDiscontinuedOperations'] = 0
+                self.xbrl.fields['IncomeFromDiscontinuedOperations'] = self.xbrl.GetFactValue("us-gaap:IncomeLossFromDiscontinuedOperationsNetOfTaxAttributableToReportingEntity", "Duration")
+                if self.xbrl.fields['IncomeFromDiscontinuedOperations']== None:
+                    self.xbrl.fields['IncomeFromDiscontinuedOperations'] = 0
 
         #ExtraordaryItemsGainLoss
         self.xbrl.fields['ExtraordaryItemsGainLoss'] = self.xbrl.GetFactValue("us-gaap:ExtraordinaryItemNetOfTax", "Duration")
@@ -532,10 +536,18 @@ class FundamentantalAccountingConcepts:
         if self.xbrl.fields['OperatingIncomeLoss']==0 and self.xbrl.fields['IncomeBeforeEquityMethodInvestments']!=0:
             self.xbrl.fields['OperatingIncomeLoss'] = self.xbrl.fields['IncomeBeforeEquityMethodInvestments'] + self.xbrl.fields['NonoperatingIncomeLoss'] - self.xbrl.fields['InterestAndDebtExpense']
                 
+       
+        self.xbrl.fields['NonoperatingIncomePlusInterestAndDebtExpensePlusIncomeFromEquityMethodInvestments'] = self.xbrl.fields['IncomeFromContinuingOperationsBeforeTax'] - self.xbrl.fields['OperatingIncomeLoss']
+    
+        #NonoperatingIncomeLossPlusInterestAndDebtExpense
+        if self.xbrl.fields['NonoperatingIncomeLossPlusInterestAndDebtExpense']== 0 and self.xbrl.fields['NonoperatingIncomePlusInterestAndDebtExpensePlusIncomeFromEquityMethodInvestments']!=0:
+            self.xbrl.fields['NonoperatingIncomeLossPlusInterestAndDebtExpense'] = self.xbrl.fields['NonoperatingIncomePlusInterestAndDebtExpensePlusIncomeFromEquityMethodInvestments'] - self.xbrl.fields['IncomeFromEquityMethodInvestments']
+    
+       
              
         lngIS1 = (self.xbrl.fields['Revenues'] - self.xbrl.fields['CostOfRevenue']) - self.xbrl.fields['GrossProfit']
         lngIS2 = (self.xbrl.fields['GrossProfit'] - self.xbrl.fields['OperatingExpenses'] + self.xbrl.fields['OtherOperatingIncome']) - self.xbrl.fields['OperatingIncomeLoss']
-        lngIS3 = (self.xbrl.fields['OperatingIncomeLoss'] + self.xbrl.fields['NonoperatingIncomeLoss'] + self.xbrl.fields['InterestAndDebtExpense']) - self.xbrl.fields['IncomeBeforeEquityMethodInvestments']
+        lngIS3 = (self.xbrl.fields['OperatingIncomeLoss'] + self.xbrl.fields['NonoperatingIncomeLossPlusInterestAndDebtExpense']) - self.xbrl.fields['IncomeBeforeEquityMethodInvestments']
         lngIS4 = (self.xbrl.fields['IncomeBeforeEquityMethodInvestments'] + self.xbrl.fields['IncomeFromEquityMethodInvestments']) - self.xbrl.fields['IncomeFromContinuingOperationsBeforeTax']
         lngIS5 = (self.xbrl.fields['IncomeFromContinuingOperationsBeforeTax'] - self.xbrl.fields['IncomeTaxExpenseBenefit']) - self.xbrl.fields['IncomeFromContinuingOperationsAfterTax']
         lngIS6 = (self.xbrl.fields['IncomeFromContinuingOperationsAfterTax'] + self.xbrl.fields['IncomeFromDiscontinuedOperations'] + self.xbrl.fields['ExtraordaryItemsGainLoss']) - self.xbrl.fields['NetIncomeLoss']
@@ -549,8 +561,8 @@ class FundamentantalAccountingConcepts:
             print "IS1: GrossProfit(" , self.xbrl.fields['GrossProfit'] , ") = Revenues(" , self.xbrl.fields['Revenues'] , ") - CostOfRevenue(" , self.xbrl.fields['CostOfRevenue'] , "): " , lngIS1
         if lngIS2:
             print "IS2: OperatingIncomeLoss(" , self.xbrl.fields['OperatingIncomeLoss'] , ") = GrossProfit(" , self.xbrl.fields['GrossProfit'] , ") - OperatingExpenses(" , self.xbrl.fields['OperatingExpenses'] , ") , OtherOperatingIncome(" , self.xbrl.fields['OtherOperatingIncome'] , "): " , lngIS2
-        if lngIS3:
-            print "IS3: IncomeBeforeEquityMethodInvestments(" , self.xbrl.fields['IncomeBeforeEquityMethodInvestments'] , ") = OperatingIncomeLoss(" , self.xbrl.fields['OperatingIncomeLoss'] , ") , NonoperatingIncomeLoss(" , self.xbrl.fields['NonoperatingIncomeLoss'] , "), InterestAndDebtExpense(" , self.xbrl.fields['InterestAndDebtExpense'] , "): " , lngIS3
+        if lngIS3:        
+            print "IS3: IncomeBeforeEquityMethodInvestments(" , self.xbrl.fields['IncomeBeforeEquityMethodInvestments'] , ") = OperatingIncomeLoss(" , self.xbrl.fields['OperatingIncomeLoss'] , ") - NonoperatingIncomeLoss(" , self.xbrl.fields['NonoperatingIncomeLoss'] , "), InterestAndDebtExpense(" , self.xbrl.fields['InterestAndDebtExpense'] , "): " , lngIS3
         if lngIS4:
             print "IS4: IncomeFromContinuingOperationsBeforeTax(" , self.xbrl.fields['IncomeFromContinuingOperationsBeforeTax'] , ") = IncomeBeforeEquityMethodInvestments(" , self.xbrl.fields['IncomeBeforeEquityMethodInvestments'] , ") , IncomeFromEquityMethodInvestments(" , self.xbrl.fields['IncomeFromEquityMethodInvestments'] , "): " , lngIS4
         
@@ -671,6 +683,10 @@ class FundamentantalAccountingConcepts:
 
         
         lngCF1 = self.xbrl.fields['NetCashFlow'] - (self.xbrl.fields['NetCashFlowsOperating'] + self.xbrl.fields['NetCashFlowsInvesting'] + self.xbrl.fields['NetCashFlowsFinancing'] + self.xbrl.fields['ExchangeGainsLosses'])
+        if lngCF1!=0 and (self.xbrl.fields['NetCashFlow'] - (self.xbrl.fields['NetCashFlowsOperating'] + self.xbrl.fields['NetCashFlowsInvesting'] + self.xbrl.fields['NetCashFlowsFinancing'] + self.xbrl.fields['ExchangeGainsLosses'])==(self.xbrl.fields['ExchangeGainsLosses']*-1)):       
+            lngCF1 = 888888
+            #What is going on here is that 171 filers compute net cash flow differently than everyone else.  
+            #What I am doing is marking these by setting the value of the test to a number 888888 which would never occur naturally, so that I can differentiate this from errors.
         lngCF2 = self.xbrl.fields['NetCashFlowsContinuing'] - (self.xbrl.fields['NetCashFlowsOperatingContinuing'] + self.xbrl.fields['NetCashFlowsInvestingContinuing'] + self.xbrl.fields['NetCashFlowsFinancingContinuing'])
         lngCF3 = self.xbrl.fields['NetCashFlowsDiscontinued'] - (self.xbrl.fields['NetCashFlowsOperatingDiscontinued'] + self.xbrl.fields['NetCashFlowsInvestingDiscontinued'] + self.xbrl.fields['NetCashFlowsFinancingDiscontinued'])
         lngCF4 = self.xbrl.fields['NetCashFlowsOperating'] - (self.xbrl.fields['NetCashFlowsOperatingContinuing'] + self.xbrl.fields['NetCashFlowsOperatingDiscontinued'])
