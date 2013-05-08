@@ -6,6 +6,8 @@ To set up the index of all SEC filings:
 
 Put this django app under manage.py and do your settings.py
 
+In settings.py, add DATA_DIR = '/you/directory/to/download/files/to'
+
 python manage.py syncdb
 
 python manage.py sec_import_index
