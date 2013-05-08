@@ -1,0 +1,30 @@
+local_settings.py
+*cheatsheet*
+*.DS_Store
+
+*.py[cod]
+
+# C extensions
+*.so
+
+# logs
+*.log
+*.log.*
+
+
+# Packages
+*.egg
+*.egg-info
+dist
+build
+eggs
+parts
+bin
+var
+sdist
+develop-eggs
+.installed.cfg
+lib
+lib64
+
+
