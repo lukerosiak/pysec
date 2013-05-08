@@ -2,8 +2,9 @@ import os
 from pysec import xbrl
 
 from django.db import models
+from django.conf import settings
 
-
+DATA_DIR = settings.DATA_DIR
 
 class Index(models.Model):
     
@@ -32,16 +33,16 @@ class Index(models.Model):
         return self.filename.split('/')[-1]
         
     def localfile(self):
-        filename = '/home/luke/research/sec/pysec/data/%s/%s/%s' % (self.cik,self.txt()[:-4],self.txt())
+        filename = '%s/%s/%s/%s' % (DATA_DIR, self.cik,self.txt()[:-4],self.txt())
         if os.path.exists(filename):
             return filename
         return None
         
     def localpath(self):
-        return '/home/luke/research/sec/pysec/data/%s/%s/' % (self.cik,self.txt()[:-4])
+        return '%s/%s/%s/' % (DATA_DIR, self.cik,self.txt()[:-4])
 
     def localcik(self):
-        return '/home/luke/research/sec/pysec/data/%s/' % (self.cik)
+        return '%s/%s/' % (DATA_DIR, self.cik)
     
 
 
