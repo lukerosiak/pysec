@@ -6,7 +6,7 @@ To set up the index of all SEC filings:
 
 Put this django app under manage.py and do your settings.py
 
-In settings.py, add DATA_DIR = '/you/directory/to/download/files/to' or add the line from pysec_settings import *
+In settings.py, modify DATA_DIR = '/you/directory/to/download/files/to' and set your database
 
 python manage.py syncdb
 
@@ -34,3 +34,7 @@ For an example of generating a CSV of a list of companies, see management/comman
 
 By Luke Rosiak
 Released under the GNU
+
+
+
+
