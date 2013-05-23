@@ -8,25 +8,25 @@ class FundamentantalAccountingConcepts:
 
         print " "
         print "FUNDAMENTAL ACCOUNTING CONCEPTS CHECK REPORT:"
-        print "XBRL instance: " + self.xbrl.XBRLInstanceLocation
-        print "XBRL Cloud Viewer: https://edgardashboard.xbrlcloud.com/flex/viewer/XBRLViewer.html#instance=" + self.xbrl.XBRLInstanceLocation
+        print "XBRL instance: %s" % self.xbrl.XBRLInstanceLocation
+        print "XBRL Cloud Viewer: https://edgardashboard.xbrlcloud.com/flex/viewer/XBRLViewer.html#instance=%s" % self.xbrl.XBRLInstanceLocation
         
-        print "US GAAP Taxonomy version: " + self.xbrl.fields['USGAAP_TaxonomyVersion']
-        print "DEI Taxonomy version: " + self.xbrl.fields['DEI_TaxonomyVersion']
+        print "US GAAP Taxonomy version: %s" % self.xbrl.fields['USGAAP_TaxonomyVersion']
+        print "DEI Taxonomy version: %s" % self.xbrl.fields['DEI_TaxonomyVersion']
         
-        print "Entity regiant name: " + self.xbrl.fields['EntityRegistrantName']
-        print "CIK: " + self.xbrl.fields['EntityCentralIndexKey']
-        print "Entity filer category: " + self.xbrl.fields['EntityFilerCategory']
-        print "Trading symbol: " + self.xbrl.fields['TradingSymbol']
-        print "Fiscal year: " + self.xbrl.fields['DocumentFiscalYearFocus']
-        print "Fiscal period: " + self.xbrl.fields['DocumentFiscalPeriodFocus']
-        print "Document type: " + self.xbrl.fields['DocumentType']
+        print "Entity regiant name: %s" % self.xbrl.fields['EntityRegistrantName']
+        print "CIK: %s" % self.xbrl.fields['EntityCentralIndexKey']
+        print "Entity filer category: %s" % self.xbrl.fields['EntityFilerCategory']
+        print "Trading symbol: %s" % self.xbrl.fields['TradingSymbol']
+        print "Fiscal year: %s" % self.xbrl.fields['DocumentFiscalYearFocus']
+        print "Fiscal period: %s" % self.xbrl.fields['DocumentFiscalPeriodFocus']
+        print "Document type: %s" % self.xbrl.fields['DocumentType']
         
-        print "Balance Sheet Date (document period end date): " + self.xbrl.fields['BalanceSheetDate']
-        print "Income Statement Period (YTD, current period, period start date): " + self.xbrl.fields['IncomeStatementPeriodYTD'] + " to " + self.xbrl.fields['BalanceSheetDate']
+        print "Balance Sheet Date (document period end date): %s" % self.xbrl.fields['BalanceSheetDate']
+        print "Income Statement Period (YTD, current period, period start date): %s to %s" % (self.xbrl.fields['IncomeStatementPeriodYTD'], self.xbrl.fields['BalanceSheetDate'])
         
-        print "Context ID for document period focus (instants): " + self.xbrl.fields['ContextForInstants']
-        print "Context ID for YTD period (durations): " + self.xbrl.fields['ContextForDurations']
+        print "Context ID for document period focus (instants): %s" % self.xbrl.fields['ContextForInstants']
+        print "Context ID for YTD period (durations): %s" % self.xbrl.fields['ContextForDurations']
         print " "
 
        
@@ -105,7 +105,8 @@ class FundamentantalAccountingConcepts:
                 RedeemableNoncontrollingInterest = 0
 
         #This adds redeemable noncontrolling interest and temporary equity which are rare, but can be reported seperately
-        self.xbrl.fields['TemporaryEquity'] = float(self.xbrl.fields['TemporaryEquity']) + float(RedeemableNoncontrollingInterest)
+        if self.xbrl.fields['TemporaryEquity']:
+            self.xbrl.fields['TemporaryEquity'] = float(self.xbrl.fields['TemporaryEquity']) + float(RedeemableNoncontrollingInterest)
 
 
         #Equity

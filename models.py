@@ -76,8 +76,7 @@ class Index(models.Model):
                 os.system('wget %s' % self.xbrl_link())
                 os.system('unzip *.zip')
 
-
-    def xbrl(self):
+    def xbrl_localpath(self):
         try:
             os.chdir(self.localpath())
         except:
@@ -85,11 +84,16 @@ class Index(models.Model):
         files = os.listdir('.')
         xml = sorted([elem for elem in files if elem.endswith('.xml')],key=len)
         if not len(xml):
-            print 'no xml?'
             return None
-                
-        x = xbrl.XBRL(self.localpath()+xml[0])
-        print self.localpath()+xml[0]
+        return self.localpath() + xml[0]
+
+
+    def xbrl(self):
+        filepath = self.xbrl_localpath()  
+        if not filepath:
+            print 'no xbrl found. this option is for 10-ks.'
+            return None                      
+        x = xbrl.XBRL(filepath)
         x.fields['FiscalPeriod'] = x.fields['DocumentFiscalPeriodFocus']
         x.fields['FiscalYear'] = x.fields['DocumentFiscalYearFocus']
         x.fields['DocumentPeriodEndDate'] = x.fields['BalanceSheetDate']
@@ -98,3 +102,9 @@ class Index(models.Model):
         x.fields['LinkToXBRLInstance'] = self.xbrl_link() 
 
         return x
+        
+    def ticker(self): #get a company's stock ticker from an XML filing
+        filepath = self.xbrl_localpath()                        
+        if filepath:
+            return filepath.split('-')[0]
+        return None

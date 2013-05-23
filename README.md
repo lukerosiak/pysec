@@ -6,7 +6,7 @@ To set up the index of all SEC filings:
 
 Put this django app under manage.py and do your settings.py
 
-In settings.py, add DATA_DIR = '/you/directory/to/download/files/to'
+In settings.py, add DATA_DIR = '/you/directory/to/download/files/to' or add the line from pysec_settings import *
 
 python manage.py syncdb
 
@@ -27,6 +27,8 @@ To get any XBRL term:
 
 x.GetFactValue(XMBL TAG, "Duration" or "Instant" (depending on if it's a year-long or snapshot value))
 
+
+For more basic usage, see example.py
 
 For an example of generating a CSV of a list of companies, see management/commands/xbrl_to_csv.py
 
