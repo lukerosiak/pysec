@@ -11,9 +11,6 @@ class FundamentantalAccountingConcepts:
         print "XBRL instance: %s" % self.xbrl.XBRLInstanceLocation
         print "XBRL Cloud Viewer: https://edgardashboard.xbrlcloud.com/flex/viewer/XBRLViewer.html#instance=%s" % self.xbrl.XBRLInstanceLocation
         
-        print "US GAAP Taxonomy version: %s" % self.xbrl.fields['USGAAP_TaxonomyVersion']
-        print "DEI Taxonomy version: %s" % self.xbrl.fields['DEI_TaxonomyVersion']
-        
         print "Entity regiant name: %s" % self.xbrl.fields['EntityRegistrantName']
         print "CIK: %s" % self.xbrl.fields['EntityCentralIndexKey']
         print "Entity filer category: %s" % self.xbrl.fields['EntityFilerCategory']
