@@ -5,14 +5,19 @@ import re
 class XBRL:
  
 
-    def __init__(self,XBRLInstanceLocation='/home/luke/research/sec/pysec/data/30305/dco-20121231.xml'):
+    def __init__(self,XBRLInstanceLocation):
                 
         self.XBRLInstanceLocation = XBRLInstanceLocation        
-        self.ns = None   
         self.fields = {}
         
         self.EntireInstanceDocument = open(XBRLInstanceLocation,'r').read() 
         self.oInstance = etree.fromstring(self.EntireInstanceDocument)
+        self.ns = {}
+        for k in self.oInstance.nsmap.keys():
+            if k != None:
+                self.ns[k] = self.oInstance.nsmap[k]
+        self.ns['xbrli'] = 'http://www.xbrl.org/2003/instance'
+        self.ns['xlmns'] = 'http://www.xbrl.org/2003/instance'
                                         
         self.GetBaseInformation()        
         self.loadYear(0)
@@ -77,51 +82,6 @@ class XBRL:
         
 
     def GetBaseInformation(self):        
-        #This gets the taxonomy version and figures out the contexts of the current period (instant and dutation)
-                
-        #This differentiates between the 2009, 2011, and 2012 US GAAP taxonomies...
-            
-        #US GAAP Taxonomy
-        if "http://fasb.org/us-gaap/2012-01-31" in self.EntireInstanceDocument or "http://xbrl.us/us-gaap/2012-01-31"  in self.EntireInstanceDocument:
-            #This IS the 2012 US GAAP taxonomy
-            self.fields['USGAAP_TaxonomyVersion'] = "http://fasb.org/us-gaap/2012-01-31"
-            self.fields['Invest_TaxonomyVersion'] = "http://xbrl.sec.gov/invest/2012-01-31"
-        elif "http://fasb.org/us-gaap/2011-01-31" in self.EntireInstanceDocument or "http://xbrl.us/us-gaap/2011-01-31"  in self.EntireInstanceDocument:
-            #This IS the 2011 US GAAP taxonomy
-            self.fields['USGAAP_TaxonomyVersion'] = "http://fasb.org/us-gaap/2011-01-31"
-            self.fields['Invest_TaxonomyVersion'] = "http://xbrl.sec.gov/invest/2011-01-31"
-        elif "http://fasb.org/us-gaap/2009-01-31" in self.EntireInstanceDocument or "http://xbrl.us/us-gaap/2010-01-31"  in self.EntireInstanceDocument:
-            #This IS the 2009 US GAAP taxonomy
-            self.fields['USGAAP_TaxonomyVersion'] = "http://xbrl.us/us-gaap/2009-01-31"
-            self.fields['Invest_TaxonomyVersion'] = "http://xbrl.us/invest/2019-01-31"
-        else: #"http://fasb.org/us-gaap/2009-01-31" in self.EntireInstanceDocument or "http://xbrl.us/us-gaap/2009-01-31"  in self.EntireInstanceDocument:
-            #This IS the 2009 US GAAP taxonomy
-            self.fields['USGAAP_TaxonomyVersion'] = "http://xbrl.us/us-gaap/2009-01-31"
-            self.fields['Invest_TaxonomyVersion'] = "http://xbrl.us/invest/2019-01-31"
-            
-           
-            
-        
-        #DEI Taxonomy
-        if "http://xbrl.sec.gov/dei/2012-01-31" in self.EntireInstanceDocument:
-            #This IS the 2012 DEI taxonomy
-            self.fields['DEI_TaxonomyVersion'] = "http://xbrl.sec.gov/dei/2012-01-31"
-        elif "http://xbrl.sec.gov/dei/2011-01-31" in self.EntireInstanceDocument:
-            #This IS the 2011 DEI taxonomy
-            self.fields['DEI_TaxonomyVersion'] = "http://xbrl.sec.gov/dei/2011-01-31"
-        else: # "http://xbrl.sec.gov/dei/2009-01-31" in self.EntireInstanceDocument:
-            #This IS the 2009 DEI taxonomy
-            self.fields['DEI_TaxonomyVersion'] = "http://xbrl.us/dei/2009-01-31"
-        
-        self.ns = {'xsi':'http://www.w3.org/2001/XMLSchema-instance',
-            'xbrli':'http://www.xbrl.org/2003/instance',
-            'xmlns':'http://www.xbrl.org/2003/instance',
-            'xbrldi':'http://xbrl.org/2006/xbrldi',
-            'us-gaap': self.fields['USGAAP_TaxonomyVersion'],
-            'dei': self.fields['DEI_TaxonomyVersion'],
-            'currency':'http://xbrl.sec.gov/currency/2012-01-31',
-            'invest': self.fields['Invest_TaxonomyVersion']}
-
                 
         #Registered Name
         oNode = self.getNode("//dei:EntityRegistrantName[@contextRef]")
@@ -179,9 +139,6 @@ class XBRL:
         else:
             self.fields['DocumentType'] = "Fiscal period focus not found"
         
-
-
-
 
 
     def GetCurrentPeriodAndContextInformation(self, EndDate):
