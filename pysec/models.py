@@ -17,7 +17,7 @@ class Index(models.Model):
    
     
     def xbrl_link(self):
-        if self.form.startswith('10-K'):
+        if self.form.startswith('10-K') or self.form.startswith('10-Q'):
             id = self.filename.split('/')[-1][:-4]
             return 'http://www.sec.gov/Archives/edgar/data/%s/%s/%s-xbrl.zip' % (self.cik, id.replace('-',''), id)
         return None
